@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Snake Animation</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #111;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+
+        /* Snake segments */
+        .snake-segment {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            border-radius: 50%;
+            pointer-events: none;
+            transition: background 0.3s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script>
+        const snakeLength = 20;  // Number of snake segments
+        const segments = [];
+        const speed = 0.15;       // Movement speed
+
+        // Create snake segments
+        for (let i = 0; i < snakeLength; i++) {
+            const seg = document.createElement('div');
+            seg.classList.add('snake-segment');
+            document.body.appendChild(seg);
+            segments.push({ el: seg, x: window.innerWidth / 2, y: window.innerHeight / 2 });
+        }
+
+        // Track mouse position
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', e => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Animation loop
+        function animate() {
+            // Move head towards mouse
+            let head = segments[0];
+            let dx = mouseX - head.x;
+            let dy = mouseY - head.y;
+            head.x += dx * speed;
+            head.y += dy * speed;
+
+            // Move each segment to follow previous segment
+            for (let i = 1; i < segments.length; i++) {
+                let prev = segments[i - 1];
+                let seg = segments[i];
+                let dx = prev.x - seg.x;
+                let dy = prev.y - seg.y;
+                seg.x += dx * speed;
+                seg.y += dy * speed;
+            }
+
+            // Update DOM
+            segments.forEach((seg, index) => {
+                seg.el.style.transform = `translate(${seg.x - 10}px, ${seg.y - 10}px)`;
+                // Color gradient effect along the snake
+                seg.el.style.background = `hsl(${(index * 15) % 360}, 80%, 60%)`;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+
+</body>
+
+</html>
