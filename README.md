@@ -1,4 +1,4 @@
-# 🖱️ Mouse-Following Particle Chain
+#  Mouse-Following Particle Chain
 
 An interactive visual animation where a chain of particles smoothly follows the mouse cursor in real time. Built using **pure HTML, CSS, and JavaScript**, this project demonstrates motion smoothing, trailing effects, and dynamic color transitions.
 
